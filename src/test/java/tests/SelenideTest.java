@@ -1,7 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
@@ -10,10 +10,12 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class GithubTest extends BaseTest {
+public class SelenideTest extends BaseTest {
 
     @Test
+    @DisplayName("Hover test")
     public void hoverTest() {
+
         SelenideElement solutionsButton = $$("[aria-label = 'Global']").findBy(text("Solutions"));
 
         step("Открыть главную страницу Github", () -> {
@@ -25,7 +27,7 @@ public class GithubTest extends BaseTest {
         });
 
         step("Кликнуть по разделу Enterprise из открывшегося списка", () -> {
-            solutionsButton.$(byText("Enterprise")).click();
+            solutionsButton.parent().$(byText("Enterprise")).click();
         });
 
         step("На открытой странице должен быть заголовок с текстом Build like the best", () -> {
@@ -34,6 +36,7 @@ public class GithubTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Drag-n-drop test using Selenide")
     public void dragAndDropSimpleTest() {
 
         SelenideElement rectA = $("#column-a"),
@@ -53,6 +56,7 @@ public class GithubTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Drag-n-drop test using Actions")
     public void dragAndDropActionsTest() {
 
         SelenideElement rectA = $("#column-a"),
@@ -72,6 +76,7 @@ public class GithubTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Drag-n-drop test using element offset")
     public void dragAndDropByOffsetTest() {
 
         SelenideElement rectA = $("#column-a"),
