@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
@@ -16,7 +17,7 @@ public class GithubTest extends BaseTest {
         SelenideElement solutionsButton = $$("[aria-label = 'Global']").findBy(text("Solutions"));
 
         step("Открыть главную страницу Github", () -> {
-            open("");
+            open("https://github.com/");
         });
 
         step("В верхнем меню навести курсор на Solutions", () -> {
@@ -29,6 +30,63 @@ public class GithubTest extends BaseTest {
 
         step("На открытой странице должен быть заголовок с текстом Build like the best", () -> {
             $(byTagAndText("h1", "Build like the best")).shouldBe(visible);
+        });
+    }
+
+    @Test
+    public void dragAndDropSimpleTest() {
+
+        SelenideElement rectA = $("#column-a"),
+                rectB = $("#column-b");
+
+        step("Открыть страницу drag-n-drop", () -> {
+            open("https://the-internet.herokuapp.com/drag_and_drop");
+        });
+
+        step("Перенести прямоугольник А на место В", () -> {
+            rectA.dragAndDropTo(rectB);
+        });
+
+        step("Текст первого прямоугольника должен быть В", () -> {
+            $("#columns div").shouldHave(text("B"));
+        });
+    }
+
+    @Test
+    public void dragAndDropActionsTest() {
+
+        SelenideElement rectA = $("#column-a"),
+                rectB = $("#column-b");
+
+        step("Открыть страницу drag-n-drop", () -> {
+            open("https://the-internet.herokuapp.com/drag_and_drop");
+        });
+
+        step("Перенести прямоугольник А на место В", () -> {
+            actions().dragAndDrop(rectA, rectB).perform();
+        });
+
+        step("Текст первого прямоугольника должен быть В", () -> {
+            $("#columns div").shouldHave(text("B"));
+        });
+    }
+
+    @Test
+    public void dragAndDropByOffsetTest() {
+
+        SelenideElement rectA = $("#column-a"),
+                rectB = $("#column-b");
+
+        step("Открыть страницу drag-n-drop", () -> {
+            open("https://the-internet.herokuapp.com/drag_and_drop");
+        });
+
+        step("Перенести прямоугольник А на место В", () -> {
+            actions().dragAndDropBy(rectA, rectB.getRect().getX() - rectA.getRect().getX(), 0);
+        });
+
+        step("Текст первого прямоугольника должен быть В", () -> {
+            $("#columns div").shouldHave(text("B"));
         });
     }
 }
